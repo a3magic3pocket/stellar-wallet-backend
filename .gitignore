@@ -133,3 +133,4 @@ dist
 example-stellar-wallet
 .vscode
 .env.development
+data

@@ -1,0 +1,22 @@
+<!-- view/login.ejs -->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NestJS with EJS</title>
+  </head>
+  <body>
+    <form action="/auth/login" method="post">
+      <div style="display: flex; flex-direction: column">
+        <label from="user-email">email</label>
+        <input type="email" name="email" id="user-email" />
+        <label from="user-password">password</label>
+        <input type="password" name="password" id="user-password" />
+      </div>
+      <button type="submit">submit</button>
+    </form>
+  </body>
+</html>

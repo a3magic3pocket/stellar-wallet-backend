@@ -4,17 +4,29 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { StellarServerModule } from "./stellar-server/stellar-server.module";
 import { StellarWalletModule } from "./stellar-wallet/stellar-wallet.module";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { ViewController } from './view/view.controller';
 
 @Module({
   imports: [
+    TypeOrmModule.forRoot({
+      type: "sqlite",
+      database: "./data/stellar-database.sqlite",
+      entities: [__dirname + "/**/*.entity{.ts,.js}"],
+      synchronize: true,
+    }),
     ConfigModule.forRoot({
-      isGlobal: true, // 전역적으로 설정을 사용할 수 있도록 설정
-      envFilePath: ".env.development", // 환경 변수 파일 경로 설정
+      isGlobal: true,
+      envFilePath: ".env.development",
     }),
     StellarServerModule,
     StellarWalletModule,
+    UserModule,
+    AuthModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, ViewController],
   providers: [AppService],
 })
 export class AppModule {}

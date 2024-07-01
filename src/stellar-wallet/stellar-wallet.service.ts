@@ -24,7 +24,7 @@ export class StellarWalletService {
       console.log("response", response.data);
     } catch (error) {
       console.error(error);
-      throw new BadRequestException("지갑 생성 실패");
+      throw new BadRequestException("wallet creation failed");
     }
   }
 }
