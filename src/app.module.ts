@@ -8,6 +8,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ViewController } from './view/view.controller';
+import { StellarBalanceModule } from './stellar-balance/stellar-balance.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ViewController } from './view/view.controller';
     StellarWalletModule,
     UserModule,
     AuthModule,
+    StellarBalanceModule,
   ],
   controllers: [AppController, ViewController],
   providers: [AppService],
