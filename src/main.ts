@@ -16,7 +16,7 @@ async function bootstrap() {
   app.setViewEngine("ejs");
 
   // 전역 유효성 검사 설정
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   // SQLiteStore 설정
   const SQLite3Store = SQLite3(session);
