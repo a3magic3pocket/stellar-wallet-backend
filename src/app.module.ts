@@ -9,6 +9,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ViewController } from './view/view.controller';
 import { StellarBalanceModule } from './stellar-balance/stellar-balance.module';
+import { StellarTransactionModule } from './stellar-transaction/stellar-transaction.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { StellarBalanceModule } from './stellar-balance/stellar-balance.module';
     UserModule,
     AuthModule,
     StellarBalanceModule,
+    StellarTransactionModule,
   ],
   controllers: [AppController, ViewController],
   providers: [AppService],

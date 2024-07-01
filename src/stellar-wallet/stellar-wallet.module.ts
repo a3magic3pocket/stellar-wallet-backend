@@ -10,5 +10,6 @@ import { StellarWalletRepository } from "./stellar-wallet.repository";
   imports: [TypeOrmModule.forFeature([StellarWallet]), StellarServerModule],
   controllers: [StellarWalletController],
   providers: [StellarWalletService, StellarWalletRepository],
+  exports: [StellarWalletRepository],
 })
 export class StellarWalletModule {}

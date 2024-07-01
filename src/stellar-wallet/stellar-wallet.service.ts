@@ -1,7 +1,6 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { StellarServerService } from "src/stellar-server/stellar-server.service";
 import { Keypair } from "@stellar/stellar-sdk";
-import * as StellarSdk from "@stellar/stellar-sdk";
 import axios from "axios";
 import { IStellarWalletCreateArgs } from "./interface/stellar-wallet-create-args.interface";
 import { StellarWalletRepository } from "./stellar-wallet.repository";
