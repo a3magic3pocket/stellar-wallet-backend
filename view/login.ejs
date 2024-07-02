@@ -1,7 +1,7 @@
 <%- include('layout', { 
   cssList: [],
   body: `
-    <div class="d-flex justify-content-center align-items-center">
+    <div class="d-flex vh-100 justify-content-center align-items-center">
       <div class="d-flex flex-column">
         <label for="user-email" class="form-label">email</label>
         <div class="input-group mb-3">
@@ -13,7 +13,7 @@
           <input type="password" class="form-control" id="user-password" aria-describedby="basic-addon3" placeholder="password">
         </div>
         <button type="button" class="mb-3 btn btn-danger" onClick="StellarLogin.login()">login</button>
-        <button type="button" class="btn btn-outline-danger" onClick="StellarLogin.login()">sign up</button>
+        <button type="button" class="btn btn-outline-danger" onClick="StellarLogin.signUp()">sign up</button>
       </div>
     </div>
   `,
