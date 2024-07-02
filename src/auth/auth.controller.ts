@@ -1,11 +1,20 @@
-import { Controller, Post, UseGuards, Req, Session } from "@nestjs/common";
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Req,
+  Session,
+  Query,
+  Res,
+  Get,
+} from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { AuthService } from "./auth.service";
-import { Request } from "express";
+import { Request, Response } from "express";
 import { IAuthSession } from "./interface/auth-session.interface";
 import { User } from "src/user/user.entity";
-import { ISimpleSuccessRespDto } from "./global/dto/interface/simple-success-resp-dto.interface";
+import { ISimpleSuccessRespDto } from "../global/dto/interface/simple-success-resp-dto.interface";
 import { LoginGaurd } from "./login.guard";
+import { LogoutQueryDto } from "./dto/logout-query.dtoe";
 
 @Controller("/auth")
 export class AuthController {
@@ -21,15 +30,18 @@ export class AuthController {
     return resp;
   }
 
-  @Post("/logout")
+  @Get("/logout")
   @UseGuards(LoginGaurd)
-  async logout(@Session() session: IAuthSession) {
+  async logout(
+    @Query() query: LogoutQueryDto,
+    @Session() session: IAuthSession,
+    @Req() req: Request,
+    @Res() res: Response
+  ) {
     session.destroy(() => {});
 
-    const resp: ISimpleSuccessRespDto = {
-      message: "success",
-    };
+    let callbackUrl = query.callback ? query.callback : req.headers.referer;
 
-    return resp;
+    return res.redirect(callbackUrl);
   }
 }

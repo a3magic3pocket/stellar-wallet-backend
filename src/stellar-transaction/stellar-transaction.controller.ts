@@ -12,7 +12,7 @@ import { StellarTransactionService } from "./stellar-transaction.service";
 import { StellarWalletRepository } from "src/stellar-wallet/stellar-wallet.repository";
 import { IAuthSession } from "src/auth/interface/auth-session.interface";
 import { decryptAES } from "src/global/crypto/aes";
-import { ISimpleSuccessRespDto } from "src/auth/global/dto/interface/simple-success-resp-dto.interface";
+import { ISimpleSuccessRespDto } from "src/global/dto/interface/simple-success-resp-dto.interface";
 import { StellarTransactionsListQueryDto } from "./dto/stellar-transaction-list-query.dto";
 
 @Controller("/stellar")
