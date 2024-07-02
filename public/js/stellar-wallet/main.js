@@ -5,6 +5,7 @@ class Main {
     this.rootUrl = "http://localhost:8080";
     this.wallets = {};
     (async () => {
+      window.StellarLayout.showLoading();
       let isOk = false;
       let firstWalletId;
       isOk = await this.#settWallets();
@@ -22,6 +23,7 @@ class Main {
       }
 
       await this.renderWallet(firstWalletId);
+      window.StellarLayout.hideLoading();
     })();
   }
 
@@ -186,7 +188,6 @@ class Main {
   }
 
   async renderWallet(walletId) {
-    console.log('com eni here?', );
     await this.#renderInfo(walletId);
     await this.#renderTransactions(walletId);
   }

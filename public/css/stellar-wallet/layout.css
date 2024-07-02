@@ -1,7 +1,33 @@
+:root {
+  --container-width: 400px;
+  --container-bg-color: white;
+}
 body {
   padding: 0;
   margin: 0;
   height: 100%;
   width: 100%;
   background-color: white;
+}
+
+.layout-container {
+  position: relative;
+  width: var(--container-width);
+}
+
+.stellar-modal {
+  width: var(--container-width);
+}
+
+.class-modal {
+  display: flex;
+  position: absolute;
+  background-color: var(--container-bg-color);
+  width: var(--container-width);
+  height: 100vh;
+  z-index: 99;
+}
+
+.hide {
+  display: none;
 }
