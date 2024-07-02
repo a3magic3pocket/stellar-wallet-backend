@@ -105,6 +105,7 @@ export class StellarTransactionService {
         operation_count: record.operation_count,
         amount,
         operations: newOpers,
+        createdAt: record.created_at,
       };
       result.push(newRecord);
     }

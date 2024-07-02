@@ -10,4 +10,5 @@ export interface IStellarTransactionRecordDto {
   operation_count: number;
   amount: number;
   operations: IStellarTransactionOperationDto[];
+  createdAt: string;
 }
