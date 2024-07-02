@@ -11,11 +11,8 @@ body {
 }
 
 .layout-container {
+  display: flex;
   position: relative;
-  width: var(--container-width);
-}
-
-.stellar-modal {
   width: var(--container-width);
 }
 
@@ -24,7 +21,8 @@ body {
   position: absolute;
   background-color: var(--container-bg-color);
   width: var(--container-width);
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   z-index: 99;
 }
 

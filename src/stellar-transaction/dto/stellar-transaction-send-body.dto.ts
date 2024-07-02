@@ -2,6 +2,7 @@ import { Expose } from "class-transformer";
 import {
   IsNotEmpty,
   IsNumberString,
+  IsOptional,
 } from "class-validator";
 
 export class StellarTransactionSendBody {
@@ -13,7 +14,7 @@ export class StellarTransactionSendBody {
   @Expose({ name: "destination-public-key" })
   destinationPublicKey: string;
 
-  @IsNotEmpty({ message: "memo should not be empty" })
+  @IsOptional({ message: "memo should not be empty" })
   @Expose({ name: "memo" })
   memo: string;
 

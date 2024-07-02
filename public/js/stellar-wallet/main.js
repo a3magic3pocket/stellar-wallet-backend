@@ -4,6 +4,7 @@ class Main {
   constructor() {
     this.rootUrl = "http://localhost:8080";
     this.wallets = {};
+    this.balanceMap = {};
     (async () => {
       window.StellarLayout.showLoading();
       let isOk = false;
@@ -27,12 +28,20 @@ class Main {
     })();
   }
 
-  async #authRequest(url, error, method = "GET") {
+  async #authRequest(url, error, method = "GET", formData = {}, headers = {}) {
     try {
-      const resp = await fetch(url, {
+      const option = {
         method,
         credentials: "include",
-      });
+      };
+      if (Object.keys(formData).length > 0) {
+        option["body"] = JSON.stringify(formData);
+      }
+      if (Object.keys(headers).length > 0) {
+        option["headers"] = headers;
+      }
+
+      const resp = await fetch(url, option);
       if (resp.status === 401) {
         window.location.href = "/view/login";
       }
@@ -124,6 +133,7 @@ class Main {
     const infoElem = document.querySelector(`#${infoId}`);
 
     const { isOk, balance } = await this.#getBalance(walletId);
+    this.balanceMap[walletId] = balance;
     const publicKey = this.wallets[walletId].publicKey;
 
     infoElem.innerHTML = `
@@ -238,17 +248,28 @@ class Main {
           <div class="tab-content" id="${walletId}FuncTabContents">
             <div class="tab-pane fade show active" id="${walletId}-send" role="tabpanel" aria-labelledby="${walletId}-send-tab">
               <div id="${walletId}-send-content" class="d-flex flex-column w-100 justify-content-center align-items-center">
-                <div class="d-flex flex-column w-100 mt-5">
-                  <label for="${walletId}-from" class="form-label">From</label>
+                <div class="d-flex flex-column w-100 mt-3">
+                  <label for="${walletId}-from" class="form-label"><span class="text-danger">*</span> From</label>
                   <div class="input-group mb-3">
-                    <input type="email" class="form-control" id="${walletId}-from" aria-describedby="basic-addon3" value="${publicKey}" readonly>
+                    <input type="text" class="form-control" id="${walletId}-from" aria-describedby="basic-addon3" value="${publicKey}" readonly>
                   </div>
 
-                  <label for="${walletId}-to" class="form-label">To</label>
+                  <label for="${walletId}-to" class="form-label"><span class="text-danger">*</span> To</label>
                   <div class="input-group mb-3">
-                    <input type="password" class="form-control" id="${walletId}-to" aria-describedby="basic-addon3" placeholder="password">
+                    <input type="text" class="form-control" id="${walletId}-to" aria-describedby="basic-addon3" placeholder="to">
                   </div>
-                  <button type="button" class="btn btn-danger" onClick="StellarLogin.login()">Send</button>
+
+                  <label for="${walletId}-amount" class="form-label"><span class="text-danger">*</span> Amount</label>
+                  <div class="input-group mb-3">
+                    <input type="number" class="form-control" id="${walletId}-amount" aria-describedby="basic-addon3" placeholder="amount">
+                  </div>
+
+                  <label for="${walletId}-memo" class="form-label">Memo</label>
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="${walletId}-memo" aria-describedby="basic-addon3" placeholder="memo">
+                  </div>
+
+                  <button type="button" class="btn btn-danger" onClick="StellarMain.send('${walletId}')">Send</button>
                 </div>
               </div>
             </div>
@@ -265,19 +286,79 @@ class Main {
   }
 
   async createNewWallet() {
-    window.StellarLayout.showLoading();    
+    window.StellarLayout.showLoading();
     const url = `${this.rootUrl}/stellar/testnet/wallet`;
     const error = "지갑 생성 실패";
-    const {isOk, data} = await this.#authRequest(url, error, "POST");
+    const { isOk, data } = await this.#authRequest(url, error, "POST");
     if (isOk) {
       Swal.fire({
         title: "지갑 생성 성공",
         icon: "success",
       }).then(() => {
         window.location.reload();
-      })
+      });
       return;
     }
+    window.StellarLayout.hideLoading();
+  }
+
+  async send(walletId) {
+    const from = document.querySelector(`#${walletId}-from`).value;
+    const to = document.querySelector(`#${walletId}-to`).value;
+    const amount = document.querySelector(`#${walletId}-amount`).value;
+    const memo = document.querySelector(`#${walletId}-memo`).value;
+    if (!to) {
+      Swal.fire({
+        title: "수령 지갑 공개키(To)를 입력해주세요",
+        icon: "error",
+      });
+      return;
+    }
+    if (!amount) {
+      Swal.fire({
+        title: "전송량(Amount)를 입력해주세요",
+        icon: "error",
+      });
+      return;
+    }
+    if (parseFloat(amount) > this.balanceMap[walletId]) {
+      Swal.fire({
+        title: "전송량(Amount)은 보유 수량보다 작아야 합니다",
+        icon: "error",
+      });
+      return;
+    }
+
+    window.StellarLayout.showLoading();
+
+    const url = `${this.rootUrl}/stellar/testnet/send`;
+    const error = "송금 실패";
+    const formData = {
+      "departure-public-key": from,
+      "destination-public-key": to,
+      memo: memo ? memo : "",
+      amount: "1",
+    };
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const { isOk, data } = await this.#authRequest(
+      url,
+      error,
+      "POST",
+      formData,
+      headers
+    );
+    if (isOk) {
+      Swal.fire({
+        title: "송금 성공",
+        icon: "success",
+      }).then(() => {
+        window.StellarLayout.hideLoading();
+      });
+      return;
+    }
+
     window.StellarLayout.hideLoading();
   }
 }
