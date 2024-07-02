@@ -1,5 +1,5 @@
 /* Reference by: https://stackoverflow.com/questions/22582520/bootstrap-horizontal-scrollable-tab-bar, Razib Hossain*/
-document.addEventListener("DOMContentLoaded", function () {
+function updateTabs() {
   //  selector
   document.querySelectorAll(".tab-scroller").forEach((el) => {
     let scrollTabInner = el.querySelector(".nav");
@@ -26,8 +26,18 @@ document.addEventListener("DOMContentLoaded", function () {
       rightArrow.classList.remove("d-none");
     }
 
-    //right arrow click functionality
-    rightArrow.addEventListener("click", () => {
+    const handleLeftClick = () => {
+      rightValue -= 200;
+      scrollTabInner.style.cssText = `right: ${rightValue}px;`;
+      rightArrow.classList.remove("d-none");
+      if (rightValue <= 0) {
+        leftArrow.classList.add("d-none");
+        rightArrow.classList.remove("d-none");
+        scrollTabInner.style.cssText = `right: 0px;`;
+      }
+    };
+
+    const handleRightClick = () => {
       if (rightValue > widthOfHiddenItems) {
         rightArrow.classList.add("d-none");
         leftArrow.classList.remove("d-none");
@@ -38,18 +48,12 @@ document.addEventListener("DOMContentLoaded", function () {
         rightValue += 200;
         scrollTabInner.style.cssText = `right: ${rightValue}px;`;
       }
-    });
+    };
+
+    //right arrow click functionality
+    rightArrow.onclick = handleRightClick;
 
     //left arrow click functionality
-    leftArrow.addEventListener("click", () => {
-      rightValue -= 200;
-      scrollTabInner.style.cssText = `right: ${rightValue}px;`;
-      rightArrow.classList.remove("d-none");
-      if (rightValue <= 0) {
-        leftArrow.classList.add("d-none");
-        rightArrow.classList.remove("d-none");
-        scrollTabInner.style.cssText = `right: 0px;`;
-      }
-    });
+    leftArrow.onclick = handleLeftClick;
   });
-});
+}

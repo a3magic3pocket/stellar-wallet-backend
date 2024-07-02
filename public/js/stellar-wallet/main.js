@@ -27,10 +27,11 @@ class Main {
     })();
   }
 
-  async #authGetRequest(url, error) {
+  async #authRequest(url, error, method = "GET") {
     try {
       const resp = await fetch(url, {
-        credentials: 'include',
+        method,
+        credentials: "include",
       });
       if (resp.status === 401) {
         window.location.href = "/view/login";
@@ -55,7 +56,7 @@ class Main {
   async #settWallets() {
     const listWalletsUrl = `${this.rootUrl}/stellar/testnet/wallets`;
     const error = "지갑 조회 실패";
-    const { isOk, data } = await this.#authGetRequest(listWalletsUrl, error);
+    const { isOk, data } = await this.#authRequest(listWalletsUrl, error);
     if (!isOk) {
       return false;
     }
@@ -80,7 +81,7 @@ class Main {
 
     const url = `${this.rootUrl}/stellar/testnet/balances?public-key=${this.wallets[walletId].publicKey}`;
     const error = "잔액 조회 실패";
-    const { isOk, data } = await this.#authGetRequest(url, error);
+    const { isOk, data } = await this.#authRequest(url, error);
     if (!isOk) {
       return { isOk: false, balance: defaultBalance };
     }
@@ -127,7 +128,8 @@ class Main {
 
     infoElem.innerHTML = `
       <div class="d-flex flex-column w-100 justify-content-center align-items-center">
-        <div class="d-flex w-100 justify-content-end">
+        <div class="d-flex w-100 justify-content-end mt-1">
+          <button type="button" class="btn btn-warning btn-sm me-3" onclick="StellarMain.createNewWallet()">New</button>
           <button type="button" class="btn btn-secondary btn-sm me-3" onclick="StellarLayout.showSetting()">Setting</button>
         </div>
         <div class="d-flex flex-column justify-content-center align-items-center pt-4 pb-5">
@@ -150,7 +152,7 @@ class Main {
     }
     const url = `${this.rootUrl}/stellar/testnet/transactions?public-key=${this.wallets[walletId].publicKey}`;
     const error = "트랜잭션 목록 조회 실패";
-    const { isOk, data } = await this.#authGetRequest(url, error);
+    const { isOk, data } = await this.#authRequest(url, error);
     if (!isOk) {
       return { isOk: false, transactions: [] };
     }
@@ -259,6 +261,24 @@ class Main {
       </div>
     `;
     tabContentElem.insertAdjacentHTML("beforeend", tabContentHtml);
+    updateTabs();
+  }
+
+  async createNewWallet() {
+    window.StellarLayout.showLoading();    
+    const url = `${this.rootUrl}/stellar/testnet/wallet`;
+    const error = "지갑 생성 실패";
+    const {isOk, data} = await this.#authRequest(url, error, "POST");
+    if (isOk) {
+      Swal.fire({
+        title: "지갑 생성 성공",
+        icon: "success",
+      }).then(() => {
+        window.location.reload();
+      })
+      return;
+    }
+    window.StellarLayout.hideLoading();
   }
 }
 
