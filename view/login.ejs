@@ -1,6 +1,7 @@
 <%- include('layout', { 
+  cssList: [],
   body: `
-    <div class="d-flex vh-100 justify-content-center align-items-center">
+    <div class="d-flex justify-content-center align-items-center">
       <div class="d-flex flex-column">
         <label for="user-email" class="form-label">email</label>
         <div class="input-group mb-3">
@@ -16,6 +17,6 @@
       </div>
     </div>
   `,
-  script: `<script src="/public/js/stellar-wallet/login.js"></script>`
+  scriptList: [`<script src="/public/js/stellar-wallet/login.js"></script>`]
 }) 
 %>

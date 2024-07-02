@@ -45,6 +45,7 @@ class Login {
 
       if (resp.ok) {
         window.location.href = "/view/main";
+        return;
       }
     } catch (error) {
       console.error("error", error);

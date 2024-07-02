@@ -5,16 +5,23 @@
     <title>NestJS with EJS and Bootstrap</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/public/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/public/css/stellar-wallet/layout.css" />
+    <% for (let i = 0; i < cssList.length; i++) { %>
+      <%- cssList[i] %>
+    <% } %>
     <script src="/public/js/sweetalert.min.js"></script>
+    <script src="/public/js/bootstrap.bundle.min.js"></script>
   </head>
   <body>
     <div
-      class="d-flex w-100 h-100 justify-content-center align-items-center bg-primary"
+      class="d-flex w-100 h-100 justify-content-center align-items-center"
     >
-      <div class="d-flex vh-100 flex-column" style="width: 400px">
+      <div class="d-flex flex-column" style="width: 400px">
         <%- body %>
       </div>
     </div>
   </body>
-  <%- script %>
+  <% for (let i = 0; i < scriptList.length; i++) { %>
+    <%- scriptList[i] %>
+  <% } %>
 </html>

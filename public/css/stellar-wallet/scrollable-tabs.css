@@ -1,0 +1,34 @@
+/* Reference by: https://stackoverflow.com/questions/22582520/bootstrap-horizontal-scrollable-tab-bar, Razib Hossain*/
+.tab-scroller {
+  position: relative;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+.tab-scroller-arrow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 25px;
+  cursor: pointer;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #222222;
+}
+.tab-scroller .right-arrow {
+  right: 0;
+}
+.tab-scroller .left-arrow {
+  left: 0;
+}
+.tab-scroller .left-arrow.d-none ~ .nav {
+  padding-left: 0;
+}
+.tab-scroller .nav {
+  position: relative;
+  padding-left: 35px;
+  flex-wrap: nowrap;
+}
