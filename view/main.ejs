@@ -1,0 +1,24 @@
+<%- include('layout', { 
+  body: `
+    <div class="d-flex w-100 border border-danger">
+      상단 지갑 선택 탭
+    </div>
+    
+    <div class="d-flex w-100 border border-danger">
+      지갑 내용
+      <div>가상화폐 종류</div>
+      <div>보유 수량</div>
+      <div>public Key</div>
+    </div>
+    
+    <div class="d-flex w-100 border border-danger">
+      액션 선택 탭
+    </div>
+    <div class="d-flex w-100 border border-danger">
+      <div>가상화폐 transfer</div>
+      <div>가상화페 transactions</div>
+    </div>
+  `,
+  script: `<script src="/public/js/stellar-wallet/main.js"></script>`
+}) 
+%>

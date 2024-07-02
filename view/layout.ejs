@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NestJS with EJS and Bootstrap</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css" />
+    <script src="/public/js/sweetalert.min.js"></script>
+  </head>
+  <body>
+    <div
+      class="d-flex w-100 h-100 justify-content-center align-items-center bg-primary"
+    >
+      <div class="d-flex vh-100 flex-column" style="width: 400px">
+        <%- body %>
+      </div>
+    </div>
+  </body>
+  <%- script %>
+</html>

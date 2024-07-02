@@ -6,6 +6,7 @@ import * as SQLite3 from "connect-sqlite3";
 import { ValidationPipe } from "@nestjs/common";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { join } from "path";
+import * as express from "express";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -14,6 +15,9 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, "..", "public"));
   app.setBaseViewsDir(join(__dirname, "..", "view"));
   app.setViewEngine("ejs");
+
+  // 정적 파일 경로 설정
+  app.use("/public", express.static(process.env.STATIC_DIR_PATH));
 
   // 전역 유효성 검사 설정
   app.useGlobalPipes(new ValidationPipe({ transform: true }));

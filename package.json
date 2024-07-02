@@ -33,6 +33,7 @@
     "class-validator": "^0.14.1",
     "connect-sqlite3": "^0.9.15",
     "ejs": "^3.1.10",
+    "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.18.0",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
