@@ -1,16 +1,34 @@
 class Layout {
-  showLoading() {
-    const loadingElem = document.querySelector("#loading-modal");
-    if (loadingElem.classList.contains("hide")) {
-      loadingElem.classList.remove("hide");
+  #showElem(id) {
+    const elem = document.querySelector(`#${id}`);
+    if (elem.classList.contains("hide")) {
+      elem.classList.remove("hide");
     }
   }
 
-  hideLoading() {
-    const loadingElem = document.querySelector("#loading-modal");
-    if (!loadingElem.classList.contains("hide")) {
-      loadingElem.classList.add("hide");
+  #hideElem(id) {
+    const elem = document.querySelector(`#${id}`);
+    if (!elem.classList.contains("hide")) {
+      elem.classList.add("hide");
     }
+  }
+
+  showLoading() {
+    this.#showElem("loading-modal");
+  }
+
+  hideLoading() {
+    this.#hideElem("loading-modal");
+  }
+
+  showSetting() {
+    this.hideLoading();
+    this.#showElem("setting-modal");
+  }
+
+  hideSetting() {
+    this.hideLoading();
+    this.#hideElem("setting-modal");
   }
 }
 

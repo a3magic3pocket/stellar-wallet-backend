@@ -124,8 +124,11 @@ class Main {
     const publicKey = this.wallets[walletId].publicKey;
 
     infoElem.innerHTML = `
-      <div class="d-flex w-100 justify-content-center align-items-center">
-        <div class="d-flex flex-column justify-content-center align-items-center my-5">
+      <div class="d-flex flex-column w-100 justify-content-center align-items-center">
+        <div class="d-flex w-100 justify-content-end">
+          <button type="button" class="btn btn-secondary btn-sm me-3" onclick="StellarLayout.showSetting()">Setting</button>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center pt-4 pb-5">
           <div class="fs-2">${balance} xlm</div>
           <div class="d-flex flex-row justify-content-center align-items-center">
             <div class="fs-6 info-public-key">
