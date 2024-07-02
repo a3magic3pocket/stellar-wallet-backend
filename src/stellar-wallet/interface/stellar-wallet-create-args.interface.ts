@@ -7,5 +7,5 @@ export interface IStellarWalletCreateArgs {
   secret: string;
   network: TStellarServerAlias;
   isActive: number;
-  CreatedAt: Date;
+  createdAt: Date;
 }

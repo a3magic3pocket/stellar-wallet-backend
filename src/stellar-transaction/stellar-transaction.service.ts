@@ -45,8 +45,6 @@ export class StellarTransactionService {
     const transactionResult =
       await this.testnetServer.submitTransaction(transaction);
 
-    console.log(transaction.toEnvelope().toXDR().toString("base64"));
-
     return transactionResult;
   }
 

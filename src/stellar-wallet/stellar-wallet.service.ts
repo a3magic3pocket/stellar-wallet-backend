@@ -32,7 +32,7 @@ export class StellarWalletService {
         secret: encrpytAES(pair.secret()),
         network: "testnet",
         isActive: 1,
-        CreatedAt: new Date(),
+        createdAt: new Date(),
       };
 
       await this.stellarWalletRepository.save(stellarWalletCreateArgs);

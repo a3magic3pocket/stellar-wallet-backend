@@ -25,7 +25,7 @@ export class UserController {
       email: body.email,
       password: body.password,
       isActive: 1,
-      CreatedAt: new Date(),
+      createdAt: new Date(),
     };
 
     await this.userService.createUser(userCreateArgs);

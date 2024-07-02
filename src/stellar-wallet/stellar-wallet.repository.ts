@@ -2,8 +2,8 @@ import { DataSource, Repository } from "typeorm";
 import { Injectable } from "@nestjs/common";
 import { StellarWallet } from "./stellar-wallet.entity";
 import { TStellarServerAlias } from "src/stellar-server/type/stellar-server-alias.type";
-import { IStellarWalletSecretResp } from "./interface/stellar-wallet-secret-resp.interface";
-import { IStellarWalletListResp } from "./interface/stellar-wallet-list-resp.interface";
+import { IStellarWalletSecretRespDto } from "./interface/stellar-wallet-secret-resp-dto.interface";
+import { IStellarWalletListRespDto } from "./interface/stellar-wallet-list-resp-dto.interface";
 
 @Injectable()
 export class StellarWalletRepository extends Repository<StellarWallet> {
@@ -18,10 +18,10 @@ export class StellarWalletRepository extends Repository<StellarWallet> {
   async findByOwnerIdAndNetwork(
     ownerId: number,
     network: TStellarServerAlias
-  ): Promise<IStellarWalletListResp[]> {
+  ): Promise<IStellarWalletListRespDto[]> {
     return this.find({
       where: { ownerId, network },
-      select: ["publicKey", "isActive", "CreatedAt"],
+      select: ["publicKey", "isActive", "createdAt"],
     });
   }
 
@@ -29,7 +29,7 @@ export class StellarWalletRepository extends Repository<StellarWallet> {
     ownerId: number,
     publicKey: string,
     network: TStellarServerAlias
-  ): Promise<IStellarWalletSecretResp> {
+  ): Promise<IStellarWalletSecretRespDto> {
     return this.findOne({
       where: { ownerId, publicKey, network, isActive: 1 },
       select: ["secret"],

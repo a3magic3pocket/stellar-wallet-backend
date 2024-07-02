@@ -16,5 +16,5 @@ export class User {
   isActive: number;
 
   @Column()
-  CreatedAt: Date;
+  createdAt: Date;
 }

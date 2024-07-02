@@ -3,5 +3,5 @@ export interface IUserCreateArgs {
   email: string;
   password: string;
   isActive: number;
-  CreatedAt: Date;
+  createdAt: Date;
 }

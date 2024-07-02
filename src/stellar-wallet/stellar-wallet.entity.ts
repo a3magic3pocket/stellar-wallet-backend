@@ -22,5 +22,5 @@ export class StellarWallet {
   isActive: number;
 
   @Column()
-  CreatedAt: Date;
+  createdAt: Date;
 }
