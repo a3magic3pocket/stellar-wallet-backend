@@ -30,6 +30,10 @@ class Layout {
     this.hideLoading();
     this.#hideElem("setting-modal");
   }
+
+  async logout() {
+    window.location.href = "http://localhost:8080/auth/logout";
+  }
 }
 
 window.StellarLayout = new Layout();

@@ -29,7 +29,9 @@ class Main {
 
   async #authGetRequest(url, error) {
     try {
-      const resp = await fetch(url);
+      const resp = await fetch(url, {
+        credentials: 'include',
+      });
       if (resp.status === 401) {
         window.location.href = "/view/login";
       }

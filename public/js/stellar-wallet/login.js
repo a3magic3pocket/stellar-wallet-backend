@@ -51,6 +51,7 @@ class Login {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
+        credentials: 'include',
       });
 
       if (resp.ok) {
@@ -102,6 +103,7 @@ class Login {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
+        credentials: 'include',
       });
 
       if (resp.ok) {
