@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
+  Query,
   Session,
   UnprocessableEntityException,
 } from "@nestjs/common";
@@ -11,6 +13,7 @@ import { StellarWalletRepository } from "src/stellar-wallet/stellar-wallet.repos
 import { IAuthSession } from "src/auth/interface/auth-session.interface";
 import { decryptAES } from "src/global/crypto/aes";
 import { ISimpleSuccessRespDto } from "src/auth/global/dto/interface/simple-success-resp-dto.interface";
+import { StellarTransactionsListQueryDto } from "./dto/stellar-transaction-list-query.dto";
 
 @Controller("/stellar")
 export class StellarTransactionController {
@@ -42,5 +45,26 @@ export class StellarTransactionController {
     };
 
     return resp;
+  }
+
+  @Get("/testnet/transactions")
+  async listTransactions(@Query() query: StellarTransactionsListQueryDto) {
+    let limit = query.limit;
+    const maxLimit = 10;
+    if (!limit) {
+      limit = maxLimit;
+    } else if (limit > maxLimit) {
+      limit = maxLimit;
+    }
+
+    const refinedQuery: StellarTransactionsListQueryDto = {
+      walletPublicKey: query.walletPublicKey,
+      limit,
+      cursor: query.cursor,
+    };
+
+    return await this.stellarTransactionService.listTestnetTransactions(
+      refinedQuery
+    );
   }
 }
