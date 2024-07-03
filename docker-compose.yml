@@ -14,7 +14,7 @@ services:
     volumes:
       - /etc/letsencrypt/live/rta.kr/fullchain.pem:/etc/ssl/live/fullchain1.pem
       - /etc/letsencrypt/live/rta.kr/privkey.pem:/etc/ssl/live/privkey1.pem
-      - ./static:/stellar-wallet-backend/public
+      - ./public:/stellar-wallet-backend/public
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
