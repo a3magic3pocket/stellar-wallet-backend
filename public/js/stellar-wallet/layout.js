@@ -32,7 +32,9 @@ class Layout {
   }
 
   async logout() {
-    window.location.href = "http://localhost:8080/auth/logout";
+    const rootUrl = this.getRootUrl();
+    const callbackUrl = `${rootUrl}/view/main`
+    window.location.href = `${rootUrl}/auth/logout?callback=${callbackUrl}`;
   }
 
   getRootUrl() {
