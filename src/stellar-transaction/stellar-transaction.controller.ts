@@ -6,15 +6,19 @@ import {
   Query,
   Session,
   UnprocessableEntityException,
+  UseGuards,
 } from "@nestjs/common";
-import { StellarTransactionSendBody } from "./dto/stellar-transaction-send-body.dto";
+import { StellarTransactionSendBodyDto } from "./dto/stellar-transaction-send-body.dto";
 import { StellarTransactionService } from "./stellar-transaction.service";
 import { StellarWalletRepository } from "src/stellar-wallet/stellar-wallet.repository";
 import { IAuthSession } from "src/auth/interface/auth-session.interface";
 import { decryptAES } from "src/global/crypto/aes";
 import { ISimpleSuccessRespDto } from "src/global/dto/interface/simple-success-resp-dto.interface";
 import { StellarTransactionsListQueryDto } from "./dto/stellar-transaction-list-query.dto";
+import { ApiBody, ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
+import { LoginGaurd } from "src/auth/login.guard";
 
+@ApiTags("transaction")
 @Controller("/stellar")
 export class StellarTransactionController {
   constructor(
@@ -23,8 +27,11 @@ export class StellarTransactionController {
   ) {}
 
   @Post("/testnet/send")
+  @UseGuards(LoginGaurd)
+  @ApiOperation({ summary: "testnet 전송" })
+  @ApiBody({ description: "body", type: StellarTransactionSendBodyDto })
   async sendTestnet(
-    @Body() body: StellarTransactionSendBody,
+    @Body() body: StellarTransactionSendBodyDto,
     @Session() session: IAuthSession
   ) {
     const wallet = await this.stellarWalletRepository.findOneSecret(
@@ -48,6 +55,26 @@ export class StellarTransactionController {
   }
 
   @Get("/testnet/transactions")
+  @UseGuards(LoginGaurd)
+  @ApiOperation({ summary: "testnet transaction 목록 조회" })
+  @ApiQuery({
+    name: "limit",
+    type: "number",
+    description: "조회할 행 수",
+    required: false,
+  })
+  @ApiQuery({
+    name: "cursor",
+    type: "string",
+    description: "조회 시작 transaction pagingToken",
+    required: false,
+  })
+  @ApiQuery({
+    name: "public-key",
+    type: "string",
+    description: "대상 지갑 publicKey",
+    required: true,
+  })
   async listTransactions(@Query() query: StellarTransactionsListQueryDto) {
     let limit = query.limit;
     const maxLimit = 10;

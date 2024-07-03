@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { StellarTransactionSendBody } from "./dto/stellar-transaction-send-body.dto";
+import { StellarTransactionSendBodyDto } from "./dto/stellar-transaction-send-body.dto";
 import * as StellarSdk from "@stellar/stellar-sdk";
 import { StellarServerService } from "src/stellar-server/stellar-server.service";
 import { StellarTransactionsListQueryDto } from "./dto/stellar-transaction-list-query.dto";
@@ -13,7 +13,7 @@ export class StellarTransactionService {
     this.testnetServer = this.stellarServerService.getServer("testnet");
   }
 
-  async sendTestnet(body: StellarTransactionSendBody, depSecret: string) {
+  async sendTestnet(body: StellarTransactionSendBodyDto, depSecret: string) {
     const depAccount = await this.testnetServer.loadAccount(
       body.departurePublicKey
     );

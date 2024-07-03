@@ -7,6 +7,7 @@ import { ValidationPipe } from "@nestjs/common";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { join } from "path";
 import * as express from "express";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";  
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -42,6 +43,17 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
+
+  // swagger 설정
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle("stellar-wallet API 문서")
+    .setDescription("스텔라루멘의 testnet 지갑 프로토타입<br> - /view/login으로 브라우저에서 접속하여 로그인 후 session을 획득")
+    .setVersion("1.0")
+    .build();
+
+  const document = SwaggerModule.createDocument(app, swaggerConfig);  
+  const swaggerEndpoint = "api";  
+  SwaggerModule.setup(swaggerEndpoint, app, document);  
 
   await app.listen(8080);
 }
