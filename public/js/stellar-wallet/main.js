@@ -1,10 +1,13 @@
 class Main {
   rootUrl;
   wallets;
+  balanceMap;
+  lastRecordPagingToken;
   constructor() {
     this.rootUrl = "http://localhost:8080";
     this.wallets = {};
     this.balanceMap = {};
+    this.lastRecordPagingToken = null;
     (async () => {
       window.StellarLayout.showLoading();
       let isOk = false;
@@ -156,11 +159,14 @@ class Main {
     `;
   }
 
-  async #getTransactions(walletId) {
+  async #getTransactions(walletId, pagingToken = null) {
     if (!Object.keys(this.wallets).includes(walletId)) {
       return { isOk: false, transactions: [] };
     }
-    const url = `${this.rootUrl}/stellar/testnet/transactions?public-key=${this.wallets[walletId].publicKey}`;
+    let url = `${this.rootUrl}/stellar/testnet/transactions?public-key=${this.wallets[walletId].publicKey}`;
+    if (pagingToken !== null) {
+      url += `&cursor=${pagingToken}`;
+    }
     const error = "트랜잭션 목록 조회 실패";
     const { isOk, data } = await this.#authRequest(url, error);
     if (!isOk) {
@@ -170,11 +176,14 @@ class Main {
     return { isOk: true, transactions: data };
   }
 
-  async #renderTransactions(walletId) {
+  async #renderTransactions(walletId, pagingToken = null) {
     const transId = `${walletId}-transactions-content`;
     const transElem = document.querySelector(`#${transId}`);
 
-    const { isOk, transactions } = await this.#getTransactions(walletId);
+    const { isOk, transactions } = await this.#getTransactions(
+      walletId,
+      pagingToken
+    );
     const publicKey = this.wallets[walletId].publicKey;
 
     let html = "";
@@ -201,7 +210,56 @@ class Main {
         <div class="transaction-field">created at: ${trans.createdAt}</div>
       </div>`;
     }
-    transElem.innerHTML = html;
+    transElem.insertAdjacentHTML("beforebegin", html);
+
+    // 마지막 pagingToken 저장
+    const lastTrans = transactions[transactions.length - 1];
+    if (lastTrans && lastTrans.pagingToken) {
+      this.lastRecordPagingToken = lastTrans.pagingToken;
+    } else {
+      this.lastRecordPagingToken = null;
+    }
+
+    // transLoading 숨기기
+    const transLoadingElem = document.querySelector(
+      `#${walletId}-transactions-loading`
+    );
+    if (transLoadingElem.classList.contains("d-flex")) {
+      transLoadingElem.classList.remove("d-flex");
+      transLoadingElem.classList.add("d-none");
+    }
+  }
+
+  async #setTransactionsObserver(walletId) {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.length <= 0) {
+        return;
+      }
+
+      const entry = entries[0];
+      const walletId = entry.target.id.split("-")[0];
+      if (!walletId) {
+        return;
+      }
+
+      if (this.lastRecordPagingToken === null) {
+        return;
+      }
+
+      // transLoading 나타내기
+      const transLoadingElem = document.querySelector(
+        `#${walletId}-transactions-loading`
+      );
+      if (transLoadingElem.classList.contains("d-none")) {
+        transLoadingElem.classList.remove("d-none");
+        transLoadingElem.classList.add("d-flex");
+      }
+
+      this.#renderTransactions(walletId, this.lastRecordPagingToken);
+    });
+    observer.observe(
+      document.querySelector(`#${walletId}-transactions-anchor`)
+    );
   }
 
   async renderWallet(walletId) {
@@ -275,6 +333,12 @@ class Main {
             </div>
             <div class="tab-pane fade" id="${walletId}-transactions" role="tabpanel" aria-labelledby="${walletId}-transactions-tab">
               <div id="${walletId}-transactions-content"></div>
+              <div id="${walletId}-transactions-anchor"></div>
+              <div id="${walletId}-transactions-loading" class="d-none justify-content-center p-2">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -282,7 +346,12 @@ class Main {
       </div>
     `;
     tabContentElem.insertAdjacentHTML("beforeend", tabContentHtml);
+
+    // 상단 wallet 탭 관련 기능 갱신
     updateTabs();
+
+    // 스크롤 로딩을 위한 transactionObserver 설정
+    this.#setTransactionsObserver(walletId);
   }
 
   async createNewWallet() {
