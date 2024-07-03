@@ -118,6 +118,7 @@ class Main {
   async copy(id) {
     const targetElem = document.querySelector(`#${id}`);
     if (!targetElem) {
+      console.error(`#${id} element not exists`);
       Swal.fire({
         title: "복사 실패",
         icon: "error",
@@ -132,6 +133,7 @@ class Main {
         icon: "success",
       });
     } catch (error) {
+      console.error("error", error);
       Swal.fire({
         title: "복사 실패",
         icon: "error",
