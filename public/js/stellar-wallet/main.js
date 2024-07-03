@@ -3,11 +3,13 @@ class Main {
   wallets;
   balanceMap;
   lastRecordPagingToken;
+  isInRenderingTransactions;
   constructor() {
     this.rootUrl = StellarLayout.getRootUrl();
     this.wallets = {};
     this.balanceMap = {};
     this.lastRecordPagingToken = null;
+    this.isInRenderingTransactions = false;
     (async () => {
       window.StellarLayout.showLoading();
       let isOk = false;
@@ -22,7 +24,6 @@ class Main {
         await this.createNewWallet();
         return;
       }
-
 
       for (const [i, walletId] of Object.keys(this.wallets).entries()) {
         if (i === 0) {
@@ -184,6 +185,7 @@ class Main {
   }
 
   async #renderTransactions(walletId, pagingToken = null) {
+    this.isInRenderingTransactions = true;
     const transId = `${walletId}-transactions-content`;
     const transElem = document.querySelector(`#${transId}`);
 
@@ -192,6 +194,10 @@ class Main {
       pagingToken
     );
     const publicKey = this.wallets[walletId].publicKey;
+
+    if (this.lastRecordPagingToken === null) {
+      transElem.innerHTML = "";
+    }
 
     let html = "";
     for (const [i, trans] of transactions.entries()) {
@@ -217,7 +223,9 @@ class Main {
         <div class="transaction-field">created at: ${trans.createdAt}</div>
       </div>`;
     }
-    transElem.insertAdjacentHTML("beforebegin", html);
+    if (transactions.length > 0) {
+      transElem.innerHTML = transElem.innerHTML + html;
+    }
 
     // 마지막 pagingToken 저장
     const lastTrans = transactions[transactions.length - 1];
@@ -227,14 +235,10 @@ class Main {
       this.lastRecordPagingToken = null;
     }
 
-    // transLoading 숨기기
-    const transLoadingElem = document.querySelector(
-      `#${walletId}-transactions-loading`
-    );
-    if (transLoadingElem.classList.contains("d-flex")) {
-      transLoadingElem.classList.remove("d-flex");
-      transLoadingElem.classList.add("d-none");
-    }
+    // transactionLoading 숨기기
+    this.#hideTransactionLoading(walletId);
+
+    this.isInRenderingTransactions = false;
   }
 
   async #setTransactionsObserver(walletId) {
@@ -254,22 +258,48 @@ class Main {
       }
 
       // transLoading 나타내기
-      const transLoadingElem = document.querySelector(
-        `#${walletId}-transactions-loading`
-      );
-      if (transLoadingElem.classList.contains("d-none")) {
-        transLoadingElem.classList.remove("d-none");
-        transLoadingElem.classList.add("d-flex");
-      }
+      this.#showTransactionLoading(walletId);
 
-      this.#renderTransactions(walletId, this.lastRecordPagingToken);
+      if (!this.isInRenderingTransactions) {
+        this.#renderTransactions(walletId, this.lastRecordPagingToken);
+      }
     });
     observer.observe(
       document.querySelector(`#${walletId}-transactions-anchor`)
     );
   }
 
+  #hideTransactionLoading(walletId) {
+    const transLoadingElem = document.querySelector(
+      `#${walletId}-transactions-loading`
+    );
+    if (transLoadingElem.classList.contains("d-flex")) {
+      transLoadingElem.classList.remove("d-flex");
+      transLoadingElem.classList.add("d-none");
+    }
+  }
+
+  #showTransactionLoading(walletId) {
+    const transLoadingElem = document.querySelector(
+      `#${walletId}-transactions-loading`
+    );
+    if (transLoadingElem.classList.contains("d-none")) {
+      transLoadingElem.classList.remove("d-none");
+      transLoadingElem.classList.add("d-flex");
+    }
+  }
+
+  #initTransactionElem(walletId) {
+    const transId = `${walletId}-transactions-content`;
+    const transElem = document.querySelector(`#${transId}`);
+    transElem.innerHTML = "";
+  }
+
   async renderWallet(walletId) {
+    this.lastRecordPagingToken = null;
+    this.#initTransactionElem(walletId);
+    this.#showTransactionLoading(walletId);
+
     await this.#renderInfo(walletId);
     await this.#renderTransactions(walletId);
   }
