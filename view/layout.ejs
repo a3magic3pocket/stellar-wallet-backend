@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>NestJS with EJS and Bootstrap</title>
+    <title>Stellar Wallet</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/public/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/public/css/stellar-wallet/layout.css" />
@@ -52,8 +52,11 @@
         </div>
       </div>
     </div>
+    <div class="d-none">
+      <div id="var-root-url"><%= rootUrl %></div>
+    </div>
+    <% for (let i = 0; i < scriptList.length; i++) { %>
+      <%- scriptList[i] %>
+    <% } %>
   </body>
-  <% for (let i = 0; i < scriptList.length; i++) { %>
-    <%- scriptList[i] %>
-  <% } %>
 </html>

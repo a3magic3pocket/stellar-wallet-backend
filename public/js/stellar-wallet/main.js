@@ -4,7 +4,7 @@ class Main {
   balanceMap;
   lastRecordPagingToken;
   constructor() {
-    this.rootUrl = "http://localhost:8080";
+    this.rootUrl = StellarLayout.getRootUrl();
     this.wallets = {};
     this.balanceMap = {};
     this.lastRecordPagingToken = null;

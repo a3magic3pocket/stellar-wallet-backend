@@ -1,7 +1,7 @@
 class Login {
   rootUrl;
   constructor() {
-    this.rootUrl = "http://localhost:8080";
+    this.rootUrl = StellarLayout.getRootUrl();
     const userEmailElem = document.querySelector("#user-email");
     const userPasswordElem = document.querySelector("#user-password");
     if (userEmailElem) {

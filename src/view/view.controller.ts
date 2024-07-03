@@ -2,16 +2,21 @@ import { Controller, Get, Render } from "@nestjs/common";
 
 @Controller("/view")
 export class ViewController {
-  constructor() {}
+  commonArgs;
+  constructor() {
+    this.commonArgs = {
+      rootUrl: process.env.VIEW_ROOT_URL,
+    };
+  }
   @Get("/login")
   @Render("login")
   login() {
-    return {};
+    return { ...this.commonArgs };
   }
 
   @Get("/main")
   @Render("main")
   async main() {
-    return {};
+    return { ...this.commonArgs };
   }
 }

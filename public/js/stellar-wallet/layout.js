@@ -34,6 +34,11 @@ class Layout {
   async logout() {
     window.location.href = "http://localhost:8080/auth/logout";
   }
+
+  getRootUrl() {
+    const rootUrlElem = document.querySelector("#var-root-url");
+    return rootUrlElem.textContent;
+  }
 }
 
 window.StellarLayout = new Layout();
