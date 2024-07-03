@@ -7,7 +7,7 @@ import {
 import { UserCreateDto } from "./dto/user-create.dto";
 import { UserService } from "./user.service";
 import { IUserCreateArgs } from "./interface/user-create-args.interface";
-import { ISimpleSuccessRespDto } from "src/global/dto/interface/simple-success-resp-dto.interface";
+import { ISimpleSuccessRespDto } from "@src/global/dto/interface/simple-success-resp-dto.interface";
 import { ApiBody, ApiOperation, ApiTags } from "@nestjs/swagger";
 
 @ApiTags("user")

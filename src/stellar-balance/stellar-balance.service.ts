@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { AccountResponse } from "@stellar/stellar-sdk/lib/horizon";
-import { StellarServerService } from "src/stellar-server/stellar-server.service";
+import { StellarServerService } from "@src/stellar-server/stellar-server.service";
 import { IStellarBalanceListRespDto } from "./interface/stellar-balance-list-resp-dto.interface";
 
 @Injectable()

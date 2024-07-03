@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { StellarTransactionSendBodyDto } from "./dto/stellar-transaction-send-body.dto";
 import * as StellarSdk from "@stellar/stellar-sdk";
-import { StellarServerService } from "src/stellar-server/stellar-server.service";
+import { StellarServerService } from "@src/stellar-server/stellar-server.service";
 import { StellarTransactionsListQueryDto } from "./dto/stellar-transaction-list-query.dto";
 import { IStellarTransactionRecordDto } from "./interface/stellar-transaction-record-dto.interface";
 import { IStellarTransactionOperationDto } from "./interface/stellar-transaction-operation-dto.interface";

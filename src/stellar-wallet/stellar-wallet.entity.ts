@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
-import { TStellarServerAlias } from "src/stellar-server/type/stellar-server-alias.type";
+import { TStellarServerAlias } from "@src/stellar-server/type/stellar-server-alias.type";
 
 @Entity()
 export class StellarWallet {

@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { StellarServerModule } from "src/stellar-server/stellar-server.module";
+import { StellarServerModule } from "@src/stellar-server/stellar-server.module";
 import { StellarWalletService } from "./stellar-wallet.service";
 import { StellarWalletController } from "./stellar-wallet.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";

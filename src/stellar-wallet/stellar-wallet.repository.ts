@@ -1,7 +1,7 @@
 import { DataSource, Repository } from "typeorm";
 import { Injectable } from "@nestjs/common";
 import { StellarWallet } from "./stellar-wallet.entity";
-import { TStellarServerAlias } from "src/stellar-server/type/stellar-server-alias.type";
+import { TStellarServerAlias } from "@src/stellar-server/type/stellar-server-alias.type";
 import { IStellarWalletSecretRespDto } from "./interface/stellar-wallet-secret-resp-dto.interface";
 import { IStellarWalletListRespDto } from "./interface/stellar-wallet-list-resp-dto.interface";
 

@@ -1,4 +1,4 @@
-import { TStellarServerAlias } from "src/stellar-server/type/stellar-server-alias.type";
+import { TStellarServerAlias } from "@src/stellar-server/type/stellar-server-alias.type";
 
 export interface IStellarWalletCreateArgs {
   id?: number;

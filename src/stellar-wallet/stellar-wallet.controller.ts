@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Query, UseGuards } from "@nestjs/common";
 import { StellarWalletService } from "./stellar-wallet.service";
-import { LoginGaurd } from "src/auth/login.guard";
-import { ISimpleSuccessRespDto } from "src/global/dto/interface/simple-success-resp-dto.interface";
+import { LoginGaurd } from "@src/auth/login.guard";
+import { ISimpleSuccessRespDto } from "@src/global/dto/interface/simple-success-resp-dto.interface";
 import { Session } from "@nestjs/common";
-import { IAuthSession } from "src/auth/interface/auth-session.interface";
-import { PublicKeyQueryDto } from "src/global/dto/public-key-query.dto";
+import { IAuthSession } from "@src/auth/interface/auth-session.interface";
+import { PublicKeyQueryDto } from "@src/global/dto/public-key-query.dto";
 import { ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 
 @ApiTags("wallet")

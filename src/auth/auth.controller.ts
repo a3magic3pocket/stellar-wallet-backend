@@ -11,7 +11,7 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { Request, Response } from "express";
 import { IAuthSession } from "./interface/auth-session.interface";
-import { User } from "src/user/user.entity";
+import { User } from "@src/user/user.entity";
 import { ISimpleSuccessRespDto } from "../global/dto/interface/simple-success-resp-dto.interface";
 import { LoginGaurd } from "./login.guard";
 import { LogoutQueryDto } from "./dto/logout-query.dto";
