@@ -17,6 +17,13 @@ class Main {
         return;
       }
 
+      // 지갑이 하나도 없을때 지갑 생성
+      if (Object.keys(this.wallets).length === 0) {
+        await this.createNewWallet();
+        return;
+      }
+
+
       for (const [i, walletId] of Object.keys(this.wallets).entries()) {
         if (i === 0) {
           firstWalletId = walletId;
