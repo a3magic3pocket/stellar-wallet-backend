@@ -337,7 +337,7 @@ class Main {
       "departure-public-key": from,
       "destination-public-key": to,
       memo: memo ? memo : "",
-      amount: "1",
+      amount,
     };
     const headers = {
       "Content-Type": "application/json",

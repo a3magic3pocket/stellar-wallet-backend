@@ -10,6 +10,8 @@ class Login {
     if (userPasswordElem) {
       userPasswordElem.value = "asdfasdfasdf";
     }
+
+    StellarLayout.hideLoading();
   }
 
   #validate(email, password) {
